@@ -1,7 +1,8 @@
 Discord Bot notes
 
 Essentials
- - get specific roles by reacting, eliminating need to mute channels not interested in
+ - get specific roles by reacting, eliminating need to mute channels not interested in or notifications for any type of streamers
+ - get auto shoutouted by reacting
  - "add command" command
  - respond to @quenchbot
 

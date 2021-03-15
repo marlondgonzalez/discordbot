@@ -1,0 +1,11 @@
+Discord Bot notes
+
+Essentials
+ - get specific roles by reacting, eliminating need to mute channels not interested in
+ -
+ -
+
+Desired
+ - levels?
+ - automatically respond to special words (mostly for fun)
+ - 

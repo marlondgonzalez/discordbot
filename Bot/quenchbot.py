@@ -16,7 +16,11 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('$hello'):
+    if message.content.startswith('!hello'):
         await message.channel.send('Hello!')
+
+    if message.content.startswith('!name?'):
+        await message.channel.send('I am {0.user}! Nice to meet ya bro'.format(client))
+
 
 client.run(DISCORD_TOKEN)

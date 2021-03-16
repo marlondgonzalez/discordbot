@@ -9,4 +9,4 @@ Essentials
 Desired
  - levels?
  - automatically respond to special words (mostly for fun)
- -
+ - have steam / other launchers id's command for certain users

@@ -7,19 +7,16 @@ load_dotenv()
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 # DATABASE_URL = os.getenv("DATABASE_URL")
 
-client = commands.Bot(command_prefix = "!")
+clientbot = commands.Bot(command_prefix = "!") # In order to avoid confusion (I kept going back and forth between discord.Client and commands.Bot), I named the commands.Bot instance clientbot. NTS: it is a Bot not Client instance
 # conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 # cursor = conn.cursor()
 
-@client.event
+@clientbot.event
 async def on_ready():
-    print(f"We have logged in as {client.user}")
+    print(f"We have logged in as {clientbot.user}")
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if message.content.startswith("!hello"):
-        await message.channel.send("Hello!")
+@clientbot.command()
+async def Hello(ctx):
+    await ctx.send("Hello there!")
 
-client.run(DISCORD_TOKEN)
+clientbot.run(DISCORD_TOKEN)

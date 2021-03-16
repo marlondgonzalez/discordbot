@@ -13,7 +13,7 @@ clientbot = commands.Bot(command_prefix = "!") # In order to avoid confusion (I 
 
 @clientbot.event
 async def on_ready():
-    await clientbot.change_presence(activity=discord.Activity(state="Working on myself:)"))
+    await clientbot.change_presence(activity=discord.Game("with my code"))
     print(f"We have logged in as {clientbot.user}")
 
 @clientbot.command(aliases=["Hello"])

@@ -15,8 +15,12 @@ clientbot = commands.Bot(command_prefix = "!") # In order to avoid confusion (I 
 async def on_ready():
     print(f"We have logged in as {clientbot.user}")
 
-@clientbot.command()
-async def Hello(ctx):
+@clientbot.command(aliases=["Hello"])
+async def hello(ctx):
     await ctx.send("Hello there!")
+
+@clientbot.command(aliases=["Ping"])
+async def ping(ctx):
+    await ctx.send(f"My current ping is {round(clientbot.latency * 1000, 3)}ms!")
 
 clientbot.run(DISCORD_TOKEN)

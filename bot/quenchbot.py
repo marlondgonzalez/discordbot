@@ -12,7 +12,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Initalize Bot
 command_prefix = "!"
-intents = discord.Intents()
+intents = discord.Intents.default()
 intents.members = True
 intents.guilds = True
 clientbot = commands.Bot(command_prefix=command_prefix, intents=intents, help_command=None) # In order to avoid confusion (I kept going back and forth between discord.Client and commands.Bot), I named the commands.Bot instance clientbot. NTS: it is a Bot not Client instance
@@ -27,7 +27,6 @@ async def create_db_pool():
 @clientbot.event
 async def on_ready():
     print(f"We have logged in as {clientbot.user}")
-    print(f"Present in: {clientbot.guilds}")
 
 @clientbot.event
 async def on_message(message):
@@ -62,16 +61,16 @@ async def hello(ctx):
 async def ping(ctx):
     await ctx.send(f"My current ping is {round(clientbot.latency * 1000, 3)}ms!")
 
-# @clientbot.command(aliases=["Edit"])
-# async def edit(ctx):
-#     channelname = ctx.guild.text_channels[14]
-#     newname = channelname + r"-:red_circle:"
-#     channelname(name=newname)
-#     await ctx.send("Changed Name")
+@clientbot.command(aliases=["Edit"])
+async def edit(ctx):
+    channel = ctx.guild.text_channels[14]
+    newname = channel.name + r"-🔴"
+    await channel.edit(name=newname)
+    await ctx.send("Changed Name")
 
-# @clientbot.command(aliases=["Help"])
-# async def help(ctx):
-#     await ctx.send(f"I wonder if this overrides the default !help command")
+@clientbot.command(aliases=["Help"])
+async def help(ctx):
+    await ctx.send(f"I wonder if this overrides the default !help command")
 
 # Custom Commands
 @clientbot.command()
@@ -105,7 +104,6 @@ async def allcommands(ctx):
         commandvalue = "`" + command[3] + "`"
         embed.add_field(name=commandname, value=commandvalue, inline=False)
     await ctx.channel.send(embed=embed)
-
 
 # Quote Group Commands
 # @clientbot.group()

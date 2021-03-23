@@ -1,9 +1,12 @@
 # Import libraries
 import os
+import json
 import asyncpg
+import aiohttp
 import discord
-from discord.ext import commands
+from aiohttp import web
 from dotenv import load_dotenv
+from discord.ext import commands
 
 # Load Env Variables
 load_dotenv()
@@ -39,14 +42,22 @@ async def on_message(message):
     else:
         await message.channel.send(str(content))
 
-# @clientbot.event
-# async def on_member_join(member):
-#     message.channel.send(
-#     f'''Hey {member.name}, welcome to Stay Thirsty Friends! :peace112:\n
-#     Thanks for joining our community, please be nice and considerate.\n
-#     To see the whole server, you will have to go to {member.guild.rules_channel} to read and react to the rules of the server.\n
-#     If you want to receive a role in the server, please go to {} where you will automatically be given a role depending on what you choose.\n
-#     Hope you enjoy your time here! :music112:''')
+@clientbot.event
+async def on_member_join(member):
+    guild = member.guild
+    welcomechannel = guild.text_channels[0]
+    rolechannel = guild.text_channels[2]
+    ruleschannel = guild.rules_channel
+    await welcomechannel.send(
+    f'''Hey {member.mention}, welcome to **{guild.name}**! :peace112:
+
+Thanks for joining our community, please be nice and considerate.
+
+To see the whole server, you will have to go to {ruleschannel.mention} to read and react to the rules of the server.
+
+If you want to receive a role in the server, please go to {rolechannel.mention} where you will automatically be given a role depending on what you choose.
+
+Hope you enjoy your time here! :music112:''')
 
 # @clientbot.event
 # async def on_raw_reaction_add():
@@ -64,8 +75,14 @@ async def ping(ctx):
 @clientbot.command(aliases=["Edit"])
 async def edit(ctx):
     channel = ctx.guild.text_channels[14]
-    newname = channel.name + r"-🔴"
-    await channel.edit(name=newname)
+    channelname = channel.name
+    if "🔴" in channelname:
+        newname = channelname[0:-2]
+        await channel.edit(name=newname)
+    else:
+        newname = channelname + r"-🔴"
+        print(newname)
+        await channel.edit(name=newname)
     await ctx.send("Changed Name")
 
 @clientbot.command(aliases=["Help"])
@@ -105,6 +122,12 @@ async def allcommands(ctx):
         embed.add_field(name=commandname, value=commandvalue, inline=False)
     await ctx.channel.send(embed=embed)
 
+@clientbot.command()
+async def getchannel(ctx):
+    id = ctx.channel.id
+    await ctx.channel.send(id)
+
+
 # Quote Group Commands
 # @clientbot.group()
 # async def quote(ctx)
@@ -120,4 +143,5 @@ async def allcommands(ctx):
 
 # Main Process
 clientbot.loop.run_until_complete(create_db_pool())
+clientbot.load_extension("cogs.server")
 clientbot.run(DISCORD_TOKEN)

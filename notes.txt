@@ -11,3 +11,6 @@ Desired
  - security system?
  - automatically respond to special words (mostly for fun)
  - have steam / other launchers id's command for certain users
+
+What to do when I get full access to server:
+ - change channel variables to pull channel_id's instead of guild.text_channels[index] to avoid breaking if order is changed

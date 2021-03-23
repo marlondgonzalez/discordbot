@@ -24,10 +24,10 @@ class Server(commands.Cog):
 
         @routes.post('/entrance')
         async def entrance(request):
-            testID = 821291362963161099
             print(request)
-            if request.headers.get("Authorization") == "secretcodeDFSDFEOIA":
+            if request.headers.get("Authorization") == "secretcode":
                 data = await request.json()
+                # need a way to get channel ID's automatically
                 channel = self.clientbot.get_channel(testID)
                 await channel.send(data)
                 return web.Response(text="communication successful", status=200)

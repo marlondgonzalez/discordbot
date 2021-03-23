@@ -43,7 +43,7 @@ class Server(commands.Cog):
     async def web_server(self):
         runner = web.AppRunner(app)
         await runner.setup()
-        site = web.TCPSite(runner, host="127.0.0.1", port=self.webserver_port)
+        site = web.TCPSite(runner, host="0.0.0.0", port=self.webserver_port)
         await site.start()
 
     @web_server.before_loop

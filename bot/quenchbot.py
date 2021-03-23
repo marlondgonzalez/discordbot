@@ -102,7 +102,7 @@ async def addcommand(ctx, argument, *, content):
 @clientbot.command()
 async def deletecommand(ctx, argument):
     userID = ctx.author.id
-    GuildID = ctx.guild.id
+    guildID = ctx.guild.id
     if argument[0] != command_prefix:
         argument = command_prefix + argument
     rawcount = await clientbot.pg_con.execute("DELETE FROM Sample WHERE ArgumentName = $1", argument)

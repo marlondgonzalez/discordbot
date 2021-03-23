@@ -92,16 +92,16 @@ async def help(ctx):
 # Custom Commands
 @clientbot.command()
 async def addcommand(ctx, argument, *, content):
-    UserID = ctx.author.id
-    GuildID = ctx.guild.id
+    userID = ctx.author.id
+    guildID = ctx.guild.id
     if argument[0] != command_prefix:
         argument = command_prefix + argument
-    await clientbot.pg_con.execute("INSERT INTO Sample (UserID, GuildID, ArgumentName, Content) VALUES ($1, $2, $3, $4)", UserID, GuildID, argument, content)
+    await clientbot.pg_con.execute("INSERT INTO Sample (UserID, GuildID, ArgumentName, Content) VALUES ($1, $2, $3, $4)", userID, guildID, argument, content)
     await ctx.channel.send(f"Added \"{content}\" under {argument}")
 
 @clientbot.command()
 async def deletecommand(ctx, argument):
-    UserID = ctx.author.id
+    userID = ctx.author.id
     GuildID = ctx.guild.id
     if argument[0] != command_prefix:
         argument = command_prefix + argument

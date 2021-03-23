@@ -32,7 +32,7 @@ class Server(commands.Cog):
                 await channel.send(data)
                 return web.Response(text="communication successful", status=200)
             else:
-                return web.Response(text-"communication successful but not trusted", status=200)
+                return web.Response(text="communication successful but not trusted", status=200)
 
         self.webserver_port = os.environ.get("PORT", 5000)
         print(self.webserver_port)

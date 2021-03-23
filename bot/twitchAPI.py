@@ -16,13 +16,13 @@ def createTwitchAppToken():
     token = response["access_token"]
     return token
 
-def getUserID(username, token):
+def getUserID(username):
     url = f"https://api.twitch.tv/helix/users?login={username}"
-    #headers = {"Client-ID": TWITCH_CLIENT_ID, "Authorization":"Bearer " + createTwitchAppToken()}
-    headers = {"Client-ID": TWITCH_CLIENT_ID, "Authorization":"Bearer " + token}
+    headers = {"Client-ID": TWITCH_CLIENT_ID, "Authorization":"Bearer " + createTwitchAppToken()}
     response = requests.get(url, headers=headers)
-    return response
-    #return userID
+    data = json.loads(response.text)["data"][0]
+    userID = data['id']
+    return userID
 
 def createTwitchDiscordWebhook(userID, server, token):
     posturl = r"https://api.twitch.tv/helix/eventsub/subscriptions"

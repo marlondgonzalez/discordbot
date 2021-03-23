@@ -9,9 +9,9 @@ from discord import Webhook, AsyncWebhookAdapter
 from discord.ext import commands, tasks
 
 app = web.Application()
-print("made app")
 routes = web.RouteTableDef()
-print("made routetable")
+load_dotenv()
+API_SECRET_CODE = os.getenv("API_SECRET_CODE")
 
 class Server(commands.Cog):
     def __init__(self, clientbot):
@@ -24,8 +24,7 @@ class Server(commands.Cog):
 
         @routes.post('/entrance')
         async def entrance(request):
-            print(request)
-            if request.headers.get("Authorization") == "secretcode":
+            if request.headers.get("Authorization") == API_SECRET_CODE:
                 data = await request.json()
                 # need a way to get channel ID's automatically
                 channel = self.clientbot.get_channel(testID)
@@ -35,9 +34,8 @@ class Server(commands.Cog):
                 return web.Response(text="communication successful but not trusted", status=200)
 
         self.webserver_port = os.environ.get("PORT", 5000)
-        print(self.webserver_port)
+        print("PORT:" + str(self.webserver_port))
         app.add_routes(routes)
-        print("added routes")
 
     @tasks.loop()
     async def web_server(self):

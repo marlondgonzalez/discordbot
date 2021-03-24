@@ -33,9 +33,8 @@ class Server(commands.Cog):
                 print(data)
                 return web.Response(text="communication successful", status=200)
             else:
-                print(request.content)
-                print(request.json())
-                message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.content
+                data = await request.json()
+                message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + data
                 print(message)
                     # message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.body
                     # print(message)

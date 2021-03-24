@@ -27,12 +27,10 @@ class RegisterTwitchStreamer(TwitchAPI):
     def createTwitchAppToken(self):
         # url = f"https://id.twitch.tv/oauth2/token?client_id={TWITCH_CLIENT_ID}&client_secret={TWITCH_CLIENT_SECRET}&grant_type=client_credentials&scope=<space-separated list of scopes>"
         url = f"https://id.twitch.tv/oauth2/token?client_id={self.clientID}&client_secret={self.clientSecret}&grant_type=client_credentials"
-        statusCode = response.status_code
-        responseBody = response.text
-        print(responseBody)
-        response = requests.post(url).json()
-        if statusCode == 200:
-            self.token = response["access_token"]
+        response = requests.post(url)
+        jsonresponse = response.json()
+        if response.status_code == 200:
+            self.token = jsonresponse["access_token"]
             return self.token
         else:
             raise ValueError("Failed to generate token")

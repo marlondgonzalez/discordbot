@@ -32,6 +32,7 @@ class Server(commands.Cog):
                 print(data)
                 return web.Response(text="communication successful", status=200)
             else:
+                print(request)
                 return web.Response(text="communication successful but not trusted", status=200)
 
         self.port = os.environ.get("PORT", 5000)

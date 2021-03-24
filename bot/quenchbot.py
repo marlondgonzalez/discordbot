@@ -4,6 +4,7 @@ import asyncpg
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
+from api import establishConnection, RegisterTwitchStreamer
 
 # Load Env Variables
 load_dotenv()
@@ -146,4 +147,12 @@ async def getChannel(ctx):
 
 clientbot.load_extension("cogs.database")
 clientbot.load_extension("cogs.server")
+
+x  = establishConnection("DNGHoundz")
+print(x.clientID)
+print(x.streamerUsername)
+print(x.token)
+print(x.userID)
+print(x.response.text)
+
 clientbot.run(DISCORD_TOKEN)

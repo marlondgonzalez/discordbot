@@ -64,10 +64,3 @@ def establishConnection(streamerUsername):
     twitchStreamer.getUserID()
     twitchStreamer.createTwitchDiscordWebhook()
     return twitchStreamer
-
-x  = establishConnection("DNGHoundz")
-print(x.clientID)
-print(x.streamerUsername)
-print(x.token)
-print(x.userID)
-print(x.response.text)

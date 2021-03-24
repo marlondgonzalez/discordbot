@@ -33,15 +33,15 @@ class Server(commands.Cog):
                 print(data)
                 return web.Response(text="communication successful", status=200)
             else:
-                try:
-                    message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.text
-                    print(message)
-                    message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.body
-                    print(message)
-                except:
-                    data = await request.json()
-                    print(data)
-                    return web.Response(text="communication successful but not trusted", status=200)
+                print(request.body)
+                message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.text
+                print(message)
+                    # message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.body
+                    # print(message)
+                # except:
+                #     data = await request.json()
+                #     print(data)
+                #     return web.Response(text="communication successful but not trusted", status=200)
 
         self.port = os.environ.get("PORT", 5000)
         print("Quenchbot server loaded on PORT:" + str(self.port))

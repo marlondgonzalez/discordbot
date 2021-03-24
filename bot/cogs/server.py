@@ -35,8 +35,10 @@ class Server(commands.Cog):
             else:
                 try:
                     print(request.headers)
-                    message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.body
-                    print(message)
+                    print(request.headers["Host"])
+                    print(request.headers.get("Twitch-Eventsub-Message-ID"))
+                    print(request.headers.get('Twitch-Eventsub-Message-Timestamp'))
+                    print(request.body)
                 except:
                     data = await request.json()
                     print(data)

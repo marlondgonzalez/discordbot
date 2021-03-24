@@ -37,7 +37,7 @@ class RegisterTwitchStreamer(TwitchAPI):
 
     def getUserID(self):
         url = f"https://api.twitch.tv/helix/users?login={self.streamerUsername}"
-        headers = {"Client-ID": TWITCH_CLIENT_ID, "Authorization":"Bearer " + self.token}
+        headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"][0]
         self.userID = data['id']
@@ -58,7 +58,7 @@ class RegisterTwitchStreamer(TwitchAPI):
         }
     }
         # create algorithm to generate secret ID per automated request to TwitchAPI
-        headers = {"Client-ID":self.TWITCH_CLIENT_ID, "Authorization":"Bearer " + self.token, "Content-Type":"application/json"}
+        headers = {"Client-ID":self.clientID, "Authorization":"Bearer " + self.token, "Content-Type":"application/json"}
         self.response = requests.post(posturl, data=json.dumps(payload), headers=headers)
         return self.response
 

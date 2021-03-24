@@ -35,20 +35,19 @@ class Server(commands.Cog):
                 print(data)
                 return web.Response(text="communication successful", status=200)
             else:
-                content = await request.read()
-                print(content)
+            # try:
+                body = await request.read()
                 actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
+                message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + body
+                expectedsignature = "sha256=" + hmac.new(API_SECRET_CODE.encode(), message, hashlib.sha256).hexdigest()
                 print(actualsignature)
-                message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + content
-                signature = hmac.new(API_SECRET_CODE.encode(), message, hashlib.sha256)
-                print(signature)
-                expectedsignature = "sha256" + signature.hexdigest()
                 print(expectedsignature)
-                    # message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.body
-                    # print(message)
+                print(actualsignature == expectedsignature)
+                challenge = str(request["challenge"])
+                return web.Response(text=challenge, status=200)
                 # except:
                 #     data = await request.json()
-                #     print(data)
+                #     print("communication successful but not trusted")
                 #     return web.Response(text="communication successful but not trusted", status=200)
 
         self.port = os.environ.get("PORT", 5000)

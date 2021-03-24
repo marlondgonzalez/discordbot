@@ -37,10 +37,10 @@ class Server(commands.Cog):
                 data = await request.json()
                 actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
                 print(actualsignature)
-                message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + str(data)
-                signature = hmac.new(API_SECRET_CODE, message)
+                message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + data
+                signature = hmac.new(API_SECRET_CODE, message, )
                 print(signature)
-                expectedsignature = "sha256" + signature.hex()
+                expectedsignature = "sha256" + signature.hexdigest()
                 print(expectedsignature)
                     # message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.body
                     # print(message)

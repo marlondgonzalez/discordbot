@@ -25,8 +25,7 @@ class Server(commands.Cog):
 
         @routes.post('/entrance')
         async def entrance(request):
-            print(dir(request))
-            print(type(request))
+            print(request.headers)
             if request.headers.get("Authorization") == API_SECRET_CODE:
                 data = await request.json()
                 # need a way to get channel ID's automatically
@@ -34,6 +33,7 @@ class Server(commands.Cog):
                 # await channel.send(data)
                 print(data)
                 return web.Response(text="communication successful", status=200)
+            #elif request.headers["Twitch-Eventsub-Message-Signature"]
             else:
                 data = await request.json()
                 print(data)

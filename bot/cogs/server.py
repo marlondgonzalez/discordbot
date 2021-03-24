@@ -43,8 +43,9 @@ class Server(commands.Cog):
                 print(actualsignature)
                 print(expectedsignature)
                 print(actualsignature == expectedsignature)
-                print(request.json())
-                challenge = request.content.get("challenge")
+                content = await request.json()
+                print(content)
+
 
                 return web.Response(text=challenge, status=200)
                 # except:

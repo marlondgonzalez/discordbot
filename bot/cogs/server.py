@@ -44,10 +44,9 @@ class Server(commands.Cog):
                 print(expectedsignature)
                 print(actualsignature == expectedsignature)
                 content = await request.json()
-                print(content)
-
-
+                challenge = content["challenge"]
                 return web.Response(text=challenge, status=200)
+                print("200")
                 # except:
                 #     data = await request.json()
                 #     print("communication successful but not trusted")

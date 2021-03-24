@@ -2,6 +2,7 @@ import os
 import re
 import json
 import hmac
+import hashlib
 import aiohttp
 from aiohttp import web
 from dotenv import load_dotenv
@@ -35,6 +36,7 @@ class Server(commands.Cog):
                 return web.Response(text="communication successful", status=200)
             else:
                 content = await request.read()
+                print(content)
                 actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
                 print(actualsignature)
                 message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + content

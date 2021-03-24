@@ -9,7 +9,7 @@ from discord.ext import commands, tasks
 load_dotenv()
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
 TWITCH_CLIENT_SECRET = os.getenv("TWITCH_CLIENT_SECRET")
-
+API_SECRET_CODE = os.getenv("API_SECRET_CODE")
 
 # Base class for communicating with the Twitch.TV API
 class TwitchAPI():
@@ -54,7 +54,7 @@ class RegisterTwitchStreamer(TwitchAPI):
         "transport": {
             "method": "webhook",
             "callback": f"{self.serverURL}",
-            "secret": "secretcodeDFSDFEOIA"
+            "secret": f"{API_SECRET_CODE}"
         }
     }
         # create algorithm to generate secret ID per automated request to TwitchAPI

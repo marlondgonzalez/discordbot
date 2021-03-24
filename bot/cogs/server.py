@@ -27,8 +27,9 @@ class Server(commands.Cog):
             if request.headers.get("Authorization") == API_SECRET_CODE:
                 data = await request.json()
                 # need a way to get channel ID's automatically
-                channel = self.clientbot.get_channel(testID)
-                await channel.send(data)
+                # channel = self.clientbot.get_channel(testID)
+                # await channel.send(data)
+                print(data)
                 return web.Response(text="communication successful", status=200)
             else:
                 return web.Response(text="communication successful but not trusted", status=200)

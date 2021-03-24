@@ -42,11 +42,11 @@ class Server(commands.Cog):
                 expectedsignature = "sha256=" + hmac.new(API_SECRET_CODE.encode(), message, hashlib.sha256).hexdigest()
                 print(actualsignature)
                 print(expectedsignature)
-                print(actualsignature == expectedsignature)
-                content = await request.json()
-                challenge = content["challenge"]
-                print(challenge)
-                return web.Response(text=challenge, status=200)
+                if actualsignature == expectedsignature:
+                    content = await request.json()
+                    challenge = content["challenge"]
+                    print(challenge)
+                    return web.Response(text=challenge, status=200)
                 # except:
                 #     data = await request.json()
                 #     print("communication successful but not trusted")

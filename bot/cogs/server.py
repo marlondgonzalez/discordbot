@@ -34,7 +34,7 @@ class Server(commands.Cog):
                 return web.Response(text="communication successful", status=200)
             else:
                 data = await request.json()
-                print(request)
+                print(data)
                 return web.Response(text="communication successful but not trusted", status=200)
 
         self.port = os.environ.get("PORT", 5000)

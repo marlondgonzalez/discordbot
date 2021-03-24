@@ -10,6 +10,7 @@ load_dotenv()
 TWITCH_CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
 TWITCH_CLIENT_SECRET = os.getenv("TWITCH_CLIENT_SECRET")
 API_SECRET_CODE = os.getenv("API_SECRET_CODE")
+WEBSITE_CALLBACK_URL = os.getenv("WEBSITE_CALLBACK_URL")
 
 # Base class for communicating with the Twitch.TV API
 class TwitchAPI():
@@ -22,7 +23,7 @@ class RegisterTwitchStreamer(TwitchAPI):
         self.clientID = TWITCH_CLIENT_ID
         self.clientSecret = TWITCH_CLIENT_SECRET
         self.streamerUsername = streamerUsername
-        self.serverURL = r"https://stfquenchbot.herokuapp.com/entrance"
+        self.serverURL = r
 
     def createTwitchAppToken(self):
         # url = f"https://id.twitch.tv/oauth2/token?client_id={TWITCH_CLIENT_ID}&client_secret={TWITCH_CLIENT_SECRET}&grant_type=client_credentials&scope=<space-separated list of scopes>"

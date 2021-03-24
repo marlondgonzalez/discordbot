@@ -25,8 +25,8 @@ class Server(commands.Cog):
             print(request)
             return web.Response(text="Hello World", status=200)
 
-        @routes.post('/entrance')
-        async def entrance(request):
+        @routes.post('/callback')
+        async def callback(request):
             if request.headers.get("Authorization") == API_SECRET_CODE:
                 data = await request.json()
                 # need a way to get channel ID's automatically
@@ -47,7 +47,6 @@ class Server(commands.Cog):
                 challenge = content["challenge"]
                 print(challenge)
                 return web.Response(text=challenge, status=200)
-                print("200")
                 # except:
                 #     data = await request.json()
                 #     print("communication successful but not trusted")

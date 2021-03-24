@@ -33,6 +33,7 @@ class Server(commands.Cog):
                 print(data)
                 return web.Response(text="communication successful", status=200)
             else:
+                data = await request.json()
                 print(request)
                 return web.Response(text="communication successful but not trusted", status=200)
 

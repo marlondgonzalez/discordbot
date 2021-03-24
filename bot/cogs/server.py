@@ -20,6 +20,7 @@ class Server(commands.Cog):
 
         @routes.get('/')
         async def home(request):
+            print(request)
             return web.Response(text="Hello World", status=200)
 
         @routes.post('/entrance')

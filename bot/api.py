@@ -28,8 +28,11 @@ class RegisterTwitchStreamer(TwitchAPI):
         # url = f"https://id.twitch.tv/oauth2/token?client_id={TWITCH_CLIENT_ID}&client_secret={TWITCH_CLIENT_SECRET}&grant_type=client_credentials&scope=<space-separated list of scopes>"
         url = f"https://id.twitch.tv/oauth2/token?client_id={self.clientID}&client_secret={self.clientSecret}&grant_type=client_credentials"
         response = requests.post(url).json()
-        self.token = response["access_token"]
-        return self.token
+        if response.status_code == 200:
+            self.token = response["access_token"]
+            return self.token
+        else:
+            raise ValueError("Failed to generate token")
 
     def getUserID(self):
         url = f"https://api.twitch.tv/helix/users?login={self.streamerUsername}"

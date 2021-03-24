@@ -1,25 +1,25 @@
 import os
 import re
 import json
-import requests
 import aiohttp
 from aiohttp import web
 from dotenv import load_dotenv
-from discord import Webhook, AsyncWebhookAdapter
+# from discord import Webhook, AsyncWebhookAdapter
 from discord.ext import commands, tasks
 
+load_dotenv()
 app = web.Application()
 routes = web.RouteTableDef()
-load_dotenv()
 API_SECRET_CODE = os.getenv("API_SECRET_CODE")
 
 class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
-        self.web_server.start()
+        self.debug = False
+        self.webserver.start()
 
         @routes.get('/')
-        async def handle(request):
+        async def home(request):
             return web.Response(text="Hello World", status=200)
 
         @routes.post('/entrance')
@@ -33,19 +33,22 @@ class Server(commands.Cog):
             else:
                 return web.Response(text="communication successful but not trusted", status=200)
 
-        self.webserver_port = os.environ.get("PORT", 5000)
-        print("PORT:" + str(self.webserver_port))
+        self.port = os.environ.get("PORT", 5000)
+        print("Quenchbot server loaded on PORT:" + str(self.port))
         app.add_routes(routes)
 
     @tasks.loop()
-    async def web_server(self):
+    async def webserver(self):
         runner = web.AppRunner(app)
         await runner.setup()
-        site = web.TCPSite(runner, host="0.0.0.0", port=self.webserver_port)
+        if self.debug == True:
+            site = web.TCPSite(runner, host="127.0.0.1", port=self.port)
+        else:
+            site = web.TCPSite(runner, host="0.0.0.0", port=self.port)
         await site.start()
 
-    @web_server.before_loop
-    async def web_server_before_loop(self):
+    @webserver.before_loop
+    async def webserver_before_loop(self):
         await self.clientbot.wait_until_ready()
 
 def setup(clientbot):

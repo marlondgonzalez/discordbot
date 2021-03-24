@@ -1,10 +1,7 @@
 # Import libraries
 import os
-import json
 import asyncpg
-import aiohttp
 import discord
-from aiohttp import web
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -21,15 +18,15 @@ intents.guilds = True
 clientbot = commands.Bot(command_prefix=command_prefix, intents=intents, help_command=None) # In order to avoid confusion (I kept going back and forth between discord.Client and commands.Bot), I named the commands.Bot instance clientbot. NTS: it is a Bot not Client instance
 
 # Establish pool connection
-async def create_db_pool():
-    clientbot.pg_con = await asyncpg.create_pool(DATABASE_URL)
-    await clientbot.pg_con.execute("CREATE TABLE IF NOT EXISTS TestRun (UserID bigint, GuildID bigint, UserName varchar(255));")
-    await clientbot.pg_con.execute("CREATE TABLE IF NOT EXISTS Sample (UserID bigint, GuildID bigint, ArgumentName varchar(255), Content text);")
+# async def createDataBasePool():
+#     clientbot.pg_con = await asyncpg.create_pool(DATABASE_URL)
+#     await clientbot.pg_con.execute("CREATE TABLE IF NOT EXISTS TestRun (UserID bigint, GuildID bigint, UserName varchar(255));")
+#     await clientbot.pg_con.execute("CREATE TABLE IF NOT EXISTS Sample (UserID bigint, GuildID bigint, ArgumentName varchar(255), Content text);")
 
 # Events
 @clientbot.event
 async def on_ready():
-    print(f"We have logged in as {clientbot.user}")
+    print(f"Discord bot {clientbot.user} logged in and ready for input")
 
 @clientbot.event
 async def on_message(message):
@@ -58,6 +55,10 @@ To see the whole server, you will have to go to {ruleschannel.mention} to read a
 If you want to receive a role in the server, please go to {rolechannel.mention} where you will automatically be given a role depending on what you choose.
 
 Hope you enjoy your time here! :music112:''')
+
+# @clientbot.event
+# async def
+#
 
 # @clientbot.event
 # async def on_raw_reaction_add():
@@ -90,8 +91,8 @@ async def help(ctx):
     await ctx.send(f"I wonder if this overrides the default !help command")
 
 # Custom Commands
-@clientbot.command()
-async def addcommand(ctx, argument, *, content):
+@clientbot.command(aliases=["addcommand"])
+async def addCommand(ctx, argument, *, content):
     userID = ctx.author.id
     guildID = ctx.guild.id
     if argument[0] != command_prefix:
@@ -99,8 +100,8 @@ async def addcommand(ctx, argument, *, content):
     await clientbot.pg_con.execute("INSERT INTO Sample (UserID, GuildID, ArgumentName, Content) VALUES ($1, $2, $3, $4)", userID, guildID, argument, content)
     await ctx.channel.send(f"Added \"{content}\" under {argument}")
 
-@clientbot.command()
-async def deletecommand(ctx, argument):
+@clientbot.command(aliases=["deletecommand"])
+async def deleteCommand(ctx, argument):
     userID = ctx.author.id
     guildID = ctx.guild.id
     if argument[0] != command_prefix:
@@ -112,8 +113,8 @@ async def deletecommand(ctx, argument):
     else:
         await ctx.channel.send(f"Command not found, did not delete any command")
 
-@clientbot.command()
-async def allcommands(ctx):
+@clientbot.command(aliases=["allcommands"])
+async def allCommands(ctx):
     allcommands = await clientbot.pg_con.fetch("SELECT * FROM Sample")
     embed = discord.Embed(title="Our Discord Commands!")
     for command in allcommands:
@@ -122,8 +123,8 @@ async def allcommands(ctx):
         embed.add_field(name=commandname, value=commandvalue, inline=False)
     await ctx.channel.send(embed=embed)
 
-@clientbot.command()
-async def getchannel(ctx):
+@clientbot.command(aliases=["getchannel"])
+async def getChannel(ctx):
     id = ctx.channel.id
     await ctx.channel.send(id)
 
@@ -142,6 +143,7 @@ async def getchannel(ctx):
 # async def allquotes(ctx)
 
 # Main Process
-clientbot.loop.run_until_complete(create_db_pool())
+
+clientbot.load_extension("cogs.database")
 clientbot.load_extension("cogs.server")
 clientbot.run(DISCORD_TOKEN)

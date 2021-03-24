@@ -46,6 +46,7 @@ class Server(commands.Cog):
                 print(dir(request))
                 print(request.keys())
                 challenge = request.content.get("challenge")
+                print(request.content.keys())
                 return web.Response(text=challenge, status=200)
                 # except:
                 #     data = await request.json()

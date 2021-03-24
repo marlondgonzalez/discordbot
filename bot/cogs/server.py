@@ -25,6 +25,8 @@ class Server(commands.Cog):
 
         @routes.post('/entrance')
         async def entrance(request):
+            print(dir(request))
+            print(type(request))
             if request.headers.get("Authorization") == API_SECRET_CODE:
                 data = await request.json()
                 # need a way to get channel ID's automatically

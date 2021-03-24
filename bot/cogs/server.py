@@ -34,8 +34,13 @@ class Server(commands.Cog):
                 return web.Response(text="communication successful", status=200)
             else:
                 data = await request.json()
-                message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + data
-                print(message)
+                actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
+                print(actualsignature)
+                message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + str(data)
+                signature = hmac.new(API_SECRET_CODE, message)
+                print(signature)
+                expectedsignature = "sha256" + signature.hex()
+                print(expectedsignature)
                     # message = request.headers.get("Twitch-Eventsub-Message-ID") + request.headers.get('Twitch-Eventsub-Message-Timestamp') + request.body
                     # print(message)
                 # except:

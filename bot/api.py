@@ -64,7 +64,7 @@ class RegisterTwitchStreamer(TwitchAPI):
         return self.response
 
 def establishConnection(streamerUsername):
-    twitchStreamer = RegisterTwitchStreamer("DNGHoundz")
+    twitchStreamer = RegisterTwitchStreamer(streamerUsername)
     twitchStreamer.createTwitchAppToken()
     twitchStreamer.getUserID()
     twitchStreamer.createTwitchDiscordWebhook()

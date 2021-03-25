@@ -27,6 +27,7 @@ class Server(commands.Cog):
 
         @routes.post('/callback')
         async def callback(request):
+            print(request.url)
             if request.headers.get("Authorization") == API_SECRET_CODE:
                 data = await request.json()
                 # need a way to get channel ID's automatically

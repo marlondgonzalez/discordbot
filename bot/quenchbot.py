@@ -147,7 +147,7 @@ async def getChannel(ctx):
 
 clientbot.load_extension("cogs.database")
 clientbot.load_extension("cogs.server")
-x  = establishConnection("chewymarlon")
+x  = establishConnection("staythirstyfriends")
 print(x.clientID)
 print(x.streamerUsername)
 print(x.token)

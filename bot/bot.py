@@ -4,7 +4,7 @@ import asyncpg
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
-from api import establishConnection, RegisterTwitchStreamer
+from api import RegisterTwitchStreamer
 
 # Load Env Variables
 load_dotenv()
@@ -16,6 +16,7 @@ command_prefix = "!"
 intents = discord.Intents.default()
 intents.members = True
 intents.guilds = True
+intents.voice_states = True
 clientbot = commands.Bot(command_prefix=command_prefix, intents=intents, help_command=None) # In order to avoid confusion (I kept going back and forth between discord.Client and commands.Bot), I named the commands.Bot instance clientbot. NTS: it is a Bot not Client instance
 
 # Establish pool connection
@@ -40,22 +41,17 @@ async def on_message(message):
     else:
         await message.channel.send(str(content))
 
-@clientbot.event
-async def on_member_join(member):
-    guild = member.guild
-    welcomechannel = guild.text_channels[0]
-    rolechannel = guild.text_channels[2]
-    ruleschannel = guild.rules_channel
-    await welcomechannel.send(
-    f'''Hey {member.mention}, welcome to **{guild.name}**! :peace112:
+# @clientbot.event
+# async def on_voice_state_update(member, before, after):
+#     voicechannelID = getChannel(" Waiting Room")
+#     destinationID =
+#     if before.channel == None and after.channel.id == voicechannelID:
+#         channel = clientbot.get_channel(destinationID)
+#         await channel.send(f"User {member.name} has entered voice channel {after.channel.name}")
 
-Thanks for joining our community, please be nice and considerate.
-
-To see the whole server, you will have to go to {ruleschannel.mention} to read and react to the rules of the server.
-
-If you want to receive a role in the server, please go to {rolechannel.mention} where you will automatically be given a role depending on what you choose.
-
-Hope you enjoy your time here! :music112:''')
+# @clientbot.event
+# async def on_member_join(member):
+#     await member.add_roles(member.guild.roles)
 
 # @clientbot.event
 # async def
@@ -64,6 +60,16 @@ Hope you enjoy your time here! :music112:''')
 # @clientbot.event
 # async def on_raw_reaction_add():
     # this function will be used to react to rules / add roles / subscribe to channels
+
+
+# Helper functions
+def getChannel(guild, argument):
+    allchannels = {}
+    for channel in guild.text_channels:
+        allchannels[channel.name] = channel.id
+    for channel in ctx.guild.voice_channels:
+        allchannels[channel.name] = channel.id
+    return guild.get_channel(allchannels[argument])
 
 # Commands
 @clientbot.command(aliases=["Hello"])
@@ -125,33 +131,18 @@ async def allCommands(ctx):
     await ctx.channel.send(embed=embed)
 
 @clientbot.command(aliases=["getchannel"])
-async def getChannel(ctx):
-    id = ctx.channel.id
-    await ctx.channel.send(id)
-
-
-# Quote Group Commands
-# @clientbot.group()
-# async def quote(ctx)
-
-# @quote.command()
-# async def addquote(ctx)
-
-# @quote.command()
-# async def deletequote(ctx)
-
-# @quote.command()
-# async def allquotes(ctx)
+async def getChannel(ctx, argument):
+    allchannels = {}
+    for channel in ctx.guild.text_channels:
+        allchannels[channel.name] = channel.id
+    for channel in ctx.guild.voice_channels:
+        allchannels[channel.name] = channel.id
+    await ctx.channel.send(allchannels[argument])
 
 # Main Process
-
 clientbot.load_extension("cogs.database")
 clientbot.load_extension("cogs.server")
-x  = establishConnection("riuerebus")
-print(x.clientID)
-print(x.streamerUsername)
-print(x.token)
-print(x.userID)
-print(x.response.text)
+# streamer = RegisterTwitchStreamer("riuerebus")
+# streamer.establishConnection()
 
 clientbot.run(DISCORD_TOKEN)

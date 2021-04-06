@@ -63,9 +63,8 @@ class RegisterTwitchStreamer(TwitchAPI):
         self.response = requests.post(posturl, data=json.dumps(payload), headers=headers)
         return self.response
 
-def establishConnection(streamerUsername):
-    twitchStreamer = RegisterTwitchStreamer(streamerUsername)
-    twitchStreamer.createTwitchAppToken()
-    twitchStreamer.getUserID()
-    twitchStreamer.createTwitchDiscordWebhook()
-    return twitchStreamer
+    def establishConnection(self):
+        self.createTwitchAppToken()
+        self.getUserID()
+        self.createTwitchDiscordWebhook()
+        return self

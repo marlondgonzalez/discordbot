@@ -2,9 +2,10 @@ Discord Bot notes
 
 Essentials
  - get specific roles by reacting, eliminating need to mute channels not interested in or notifications for any type of streamers
- - get auto shoutouted by reacting
+ - get auto shouted by reacting
  - "add command" command
  - respond to @quenchbot
+ - notify users when someone joins waiting room
 
 Desired
  - levels?

@@ -55,7 +55,6 @@ async def on_message(message):
 
 # @clientbot.event
 # async def
-#
 
 # @clientbot.event
 # async def on_raw_reaction_add():

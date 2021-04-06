@@ -55,7 +55,7 @@ class Server(commands.Cog):
                 #     return web.Response(text="communication successful but not trusted", status=200)
 
         self.port = os.environ.get("PORT", 5000)
-        print("Quenchbot server loaded on PORT:" + str(self.port))
+        print(f"{self.clientbot.user} server loaded on PORT:" + str(self.port))
         app.add_routes(routes)
 
     @tasks.loop()

@@ -1,1 +1,1 @@
-web: python bot/quenchbot.py
+web: python bot/bot.py

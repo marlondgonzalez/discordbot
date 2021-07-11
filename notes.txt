@@ -4,7 +4,6 @@ Essentials
  - get specific roles by reacting, eliminating need to mute channels not interested in or notifications for any type of streamers
  - get auto shouted by reacting
  - "add command" command
- - notify users when someone joins waiting room
 
 Desired
  - levels?

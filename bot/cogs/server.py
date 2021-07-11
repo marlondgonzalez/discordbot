@@ -17,7 +17,7 @@ API_SECRET_CODE = os.getenv("API_SECRET_CODE")
 class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
-        self.debug = False
+        self.debug = True
         self.webserver.start()
 
         @routes.get('/')
@@ -55,7 +55,7 @@ class Server(commands.Cog):
                 #     return web.Response(text="communication successful but not trusted", status=200)
 
         self.port = os.environ.get("PORT", 5000)
-        print(f"{self.clientbot.user} server loaded on PORT:" + str(self.port))
+        print(f"Server loaded on PORT:" + str(self.port))
         app.add_routes(routes)
 
     @tasks.loop()

@@ -19,7 +19,7 @@ intents.guilds = True
 intents.voice_states = True
 clientbot = commands.Bot(command_prefix=command_prefix, intents=intents, help_command=None) # In order to avoid confusion (I kept going back and forth between discord.Client and commands.Bot), I named the commands.Bot instance clientbot. NTS: it is a Bot not Client instance
 
-# Establish pool connection
+# Establish pool connection / I think this is covered in database.py instead lol
 # async def createDataBasePool():
 #     clientbot.pg_con = await asyncpg.create_pool(DATABASE_URL)
 #     await clientbot.pg_con.execute("CREATE TABLE IF NOT EXISTS TestRun (UserID bigint, GuildID bigint, UserName varchar(255));")

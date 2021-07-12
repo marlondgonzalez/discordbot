@@ -27,32 +27,29 @@ class Server(commands.Cog):
 
         @routes.post('/callback')
         async def callback(request):
-            print(request.host)
-            print(request.remote)
-            if request.headers.get("Authorization") == API_SECRET_CODE:
-                data = await request.json()
-                # need a way to get channel ID's automatically
-                # channel = self.clientbot.get_channel(testID)
-                # await channel.send(data)
-                print(data)
-                return web.Response(text="communication successful", status=200)
-            else:
-            # try:
-                body = await request.read()
-                actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
-                message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + body
-                expectedsignature = "sha256=" + hmac.new(API_SECRET_CODE.encode(), message, hashlib.sha256).hexdigest()
-                print(actualsignature)
-                print(expectedsignature)
-                if actualsignature == expectedsignature:
+            headertype = request.headers.get("Twitch-Eventsub-Message-Type")
+            body = await request.read()
+            actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
+            message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + body
+            expectedsignature = "sha256=" + hmac.new(API_SECRET_CODE.encode(), message, hashlib.sha256).hexdigest()
+            if actualsignature == expectedsignature:
+                if headertype == "webhook_callback_verification":
                     content = await request.json()
                     challenge = content["challenge"]
-                    print(challenge)
-                    #return web.Response(text=challenge, status=200)
-                # except:
-                #     data = await request.json()
-                #     print("communication successful but not trusted")
-                #     return web.Response(text="communication successful but not trusted", status=200)
+                    print("Webhook callback verification completed, sending challenge to Twitch API server")
+                    return web.Response(text=challenge, status=200)
+                if headertype == "notification":
+                    guild = self.clientbot.guilds[0]
+                    channel = guild.text_channels[len(guild.text_channels)-1]
+                    content = await request.json()
+                    event = content["event"]
+                    liveStreamer = event["broadcaster_user_name"]
+                    await channel.send(f"{liveStreamer} is now live!")
+                    print(f"{liveStreamer} is now live!")
+                    return web.Response(status=200)
+            else:
+                print("Communication successful but not trusted")
+                return web.Response(status=200)
 
         self.port = os.environ.get("PORT", 5000)
         print(f"Server loaded on PORT:" + str(self.port))

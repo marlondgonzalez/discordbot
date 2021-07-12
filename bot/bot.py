@@ -4,7 +4,7 @@ import asyncpg
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
-from api import RegisterTwitchStreamer
+from api import TwitchAPI
 
 # Load Env Variables
 load_dotenv()
@@ -54,21 +54,18 @@ async def on_message(message):
 #     await member.add_roles(member.guild.roles)
 
 # @clientbot.event
-# async def
-
-# @clientbot.event
 # async def on_raw_reaction_add():
     # this function will be used to react to rules / add roles / subscribe to channels
 
 
 # Helper functions
-def getChannel(guild, argument):
-    allchannels = {}
-    for channel in guild.text_channels:
-        allchannels[channel.name] = channel.id
-    for channel in ctx.guild.voice_channels:
-        allchannels[channel.name] = channel.id
-    return guild.get_channel(allchannels[argument])
+# def getChannel(guild, argument):
+#     allchannels = {}
+#     for channel in guild.text_channels:
+#         allchannels[channel.name] = channel.id
+#     for channel in ctx.guild.voice_channels:
+#         allchannels[channel.name] = channel.id
+#     return guild.get_channel(allchannels[argument])
 
 # Commands
 @clientbot.command(aliases=["Hello"])
@@ -79,18 +76,18 @@ async def hello(ctx):
 async def ping(ctx):
     await ctx.send(f"My current ping is {round(clientbot.latency * 1000, 3)}ms!")
 
-@clientbot.command(aliases=["Edit"])
-async def edit(ctx):
-    channel = ctx.guild.text_channels[14]
-    channelname = channel.name
-    if "🔴" in channelname:
-        newname = channelname[0:-2]
-        await channel.edit(name=newname)
-    else:
-        newname = channelname + r"-🔴"
-        print(newname)
-        await channel.edit(name=newname)
-    await ctx.send("Changed Name")
+# @clientbot.command(aliases=["Edit"])
+# async def edit(ctx):
+#     channel = ctx.guild.text_channels[14]
+#     channelname = channel.name
+#     if "" in channelname:
+#         newname = channelname[0:-2]
+#         await channel.edit(name=newname)
+#     else:
+#         newname = channelname + r"-"
+#         print(newname)
+#         await channel.edit(name=newname)
+#     await ctx.send("Changed Name")
 
 @clientbot.command(aliases=["Help"])
 async def help(ctx):
@@ -122,12 +119,15 @@ async def deleteCommand(ctx, argument):
 @clientbot.command(aliases=["allcommands"])
 async def allCommands(ctx):
     allcommands = await clientbot.pg_con.fetch("SELECT * FROM Sample")
-    embed = discord.Embed(title="Our Discord Commands!")
-    for command in allcommands:
-        commandname = "**" + command[2] + "**"
-        commandvalue = "`" + command[3] + "`"
-        embed.add_field(name=commandname, value=commandvalue, inline=False)
-    await ctx.channel.send(embed=embed)
+    if len(allcommands) > 0:
+        embed = discord.Embed(title="Our Discord Commands!")
+        for command in allcommands:
+            commandname = "**" + command[2] + "**"
+            commandvalue = "`" + command[3] + "`"
+            embed.add_field(name=commandname, value=commandvalue, inline=False)
+        await ctx.channel.send(embed=embed)
+    else:
+        await ctx.channel.send("Error: No commands found, add new commands via '!addcommand' function" )
 
 @clientbot.command(aliases=["getchannel"])
 async def getChannel(ctx, argument):
@@ -136,12 +136,41 @@ async def getChannel(ctx, argument):
         allchannels[channel.name] = channel.id
     for channel in ctx.guild.voice_channels:
         allchannels[channel.name] = channel.id
-    await ctx.channel.send(allchannels[argument])
+    try:
+        await ctx.channel.send(allchannels[argument])
+    except:
+        await ctx.channel.send("Error: Not Found")
+
+# Caution: if two or more users in the guild have the same username, this command will only return one of them
+@clientbot.command(aliases=["getmember"])
+async def getMember(ctx, argument):
+    allmembers = {}
+    for member in ctx.guild.members:
+        allmembers[member.name] = member.id
+    try:
+        await ctx.channel.send(allmembers[argument])
+    except:
+        await ctx.channel.send("Error: Not Found")
+
+@clientbot.command(aliases=["register"])
+async def Register(ctx, streamerUsername):
+    twitch = TwitchAPI()
+    twitch.registerTwitchStreamer(streamerUsername)
+    print("testing establishing connection")
+
+@clientbot.command(aliases=["streamers"])
+async def ListSubscriptions(ctx):
+    twitch = TwitchAPI()
+    twitch.getActiveSubscriptions()
+    print("listing all streamers")
+
+# @clientbot.command(aliases=["deletestreamer"])
+# async def DeleteSubscription(ctx, streamerUsername):
+#     twitch = TwitchAPI()
+#     twitch.deleteActiveSubscription(streamerUsername)
+#     print("deleting streamer")
 
 # Main Process
 clientbot.load_extension("cogs.database")
 clientbot.load_extension("cogs.server")
-# streamer = RegisterTwitchStreamer("riuerebus")
-# streamer.establishConnection()
-
 clientbot.run(DISCORD_TOKEN)

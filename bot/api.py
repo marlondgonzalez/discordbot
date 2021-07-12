@@ -15,16 +15,9 @@ WEBSITE_CALLBACK_URL = os.getenv("WEBSITE_CALLBACK_URL")
 # Base class for communicating with the Twitch.TV API
 class TwitchAPI():
     def __init__(self):
-        pass
-
-class RegisterTwitchStreamer(TwitchAPI):
-    def __init__(self, streamerUsername):
-        super().__init__()
         self.clientID = TWITCH_CLIENT_ID
         self.clientSecret = TWITCH_CLIENT_SECRET
-        self.streamerUsername = streamerUsername
         self.serverURL = WEBSITE_CALLBACK_URL
-
     def createTwitchAppToken(self):
         # url = f"https://id.twitch.tv/oauth2/token?client_id={TWITCH_CLIENT_ID}&client_secret={TWITCH_CLIENT_SECRET}&grant_type=client_credentials&scope=<space-separated list of scopes>"
         url = f"https://id.twitch.tv/oauth2/token?client_id={self.clientID}&client_secret={self.clientSecret}&grant_type=client_credentials"
@@ -36,8 +29,8 @@ class RegisterTwitchStreamer(TwitchAPI):
         else:
             raise ValueError("Failed to generate token")
 
-    def getUserID(self):
-        url = f"https://api.twitch.tv/helix/users?login={self.streamerUsername}"
+    def getUserID(self, streamerUsername):
+        url = f"https://api.twitch.tv/helix/users?login={streamerUsername}"
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"][0]
@@ -63,8 +56,24 @@ class RegisterTwitchStreamer(TwitchAPI):
         self.response = requests.post(posturl, data=json.dumps(payload), headers=headers)
         return self.response
 
-    def establishConnection(self):
+    def registerTwitchStreamer(self, streamerUsername):
         self.createTwitchAppToken()
-        self.getUserID()
+        self.getUserID(streamerUsername)
         self.createTwitchDiscordWebhook()
         return self
+
+    def getActiveSubscriptions(self):
+        self.createTwitchAppToken()
+        url = f"https://api.twitch.tv/helix/eventsub/subscriptions" #?status=enabled
+        headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
+        response = requests.get(url, headers=headers)
+        data = json.loads(response.text)["data"]
+        print(data)
+        return data
+
+    def deleteActiveSubscription(self, streamerUsername):
+        activesubscriptions = self.getActiveSubscriptions()
+        ID = activesubscriptions[streamerUsername] # WIP
+        url = f"https://api.twitch.tv/helix/eventsub/subscriptions?id={ID}"
+        headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
+        response = requests.delete(url, headers=headers)

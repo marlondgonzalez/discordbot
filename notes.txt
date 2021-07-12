@@ -4,6 +4,7 @@ Essentials
  - get specific roles by reacting, eliminating need to mute channels not interested in or notifications for any type of streamers
  - get auto shouted by reacting
  - "add command" command
+ - don't forget to credit anyone whose code on github helped create this project
 
 Desired
  - levels?
@@ -13,3 +14,7 @@ Desired
 
 What to do when I get full access to server:
  - change channel variables to pull channel_id's instead of guild.text_channels[index] to avoid breaking if order is changed
+
+Technical
+ - use "taskkill /f /im ngrok.exe" to kill off any ngrok tunnels that are active
+ - change URL's and apisecretcode when deploying on server

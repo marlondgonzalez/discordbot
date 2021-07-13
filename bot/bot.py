@@ -107,29 +107,19 @@ async def getMember(ctx, argument):
     except:
         await ctx.channel.send("Error: Not Found")
 
-
 @clientbot.command(aliases=["registerstreamer"])
-@commands.has_role("Guild Master")
+@commands.has_role("Guild Tactician")
 async def RegisterStreamer(ctx, streamerUsername):
     twitch = TwitchAPI()
     twitch.registerTwitchStreamer(streamerUsername)
-    print("testing establishing connection")
+    await ctx.channel.send("Registering Streamer")
 
 @clientbot.command(aliases=["liststreamers"])
+@commands.has_role("Guild Tactician")
 async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
-    twitch.getActiveSubscriptions()
-    print("listing all streamers")
-
-@clientbot.command(aliases=["test"])
-@commands.has_role("Guild Tactician")
-async def Test(ctx):
-    print("role check successful")
-
-@clientbot.command(aliases=["testtwo"])
-@commands.has_role("Guild Master")
-async def Testtwo(ctx):
-    print("role check successful")
+    data = twitch.getActiveSubscriptions()
+    ctx.channel.send(data)
 
 # @clientbot.command(aliases=["deletestreamer"])
 # async def DeleteSubscription(ctx, streamerUsername):

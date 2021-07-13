@@ -13,10 +13,14 @@ load_dotenv()
 app = web.Application()
 routes = web.RouteTableDef()
 API_SECRET_CODE = os.getenv("API_SECRET_CODE")
+COMMAND_CHANNEL_ID = os.getenv("COMMAND_CHANNEL_ID"
+NOTIFICATION_CHANNEL_ID = os.getenv("NOTIFICATION_CHANNEL_ID")
 
 class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
+        self.commandchannel = clientbot.get_channel(COMMAND_CHANNEL_ID)
+        self.notificationchannel = clientbot.get_channel(NOTIFICATION_CHANNEL_ID)
         self.debug = False
         self.webserver.start()
 
@@ -37,14 +41,13 @@ class Server(commands.Cog):
                     content = await request.json()
                     challenge = content["challenge"]
                     print("Webhook callback verification completed, sending challenge to Twitch API server")
+                    await self.commandchannel.send(f"Connected to Twitch server, streamer notifications successful")
                     return web.Response(text=challenge, status=200)
                 if headertype == "notification":
-                    guild = self.clientbot.guilds[0]
-                    channel = guild.text_channels[len(guild.text_channels)-1]
                     content = await request.json()
                     event = content["event"]
                     liveStreamer = event["broadcaster_user_name"]
-                    await channel.send(f"{liveStreamer} is now live!")
+                    await self.notificationchannel.send(f"{liveStreamer} is now live!")
                     print(f"{liveStreamer} is now live!")
                     return web.Response(status=200)
             else:

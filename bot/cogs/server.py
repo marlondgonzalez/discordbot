@@ -20,6 +20,8 @@ class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
         self.commandchannel = clientbot.get_channel(COMMAND_CHANNEL_ID)
+        channels = clientbot.get_all_channels()
+        print(channels)
         print(COMMAND_CHANNEL_ID)
         print(self.commandchannel)
         print(type(self.commandchannel))

@@ -22,6 +22,7 @@ class Server(commands.Cog):
         self.guild = clientbot.guilds[0] # Make sure bot is only ever in this server
         self.commandchannel = self.guild.get_channel(COMMAND_CHANNEL_ID)
         self.notificationchannel = self.guild.get_channel(NOTIFICATION_CHANNEL_ID)
+        print(type(self.commandchannel))
         self.debug = False
         self.webserver.start()
 

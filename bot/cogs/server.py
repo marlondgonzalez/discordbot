@@ -13,7 +13,7 @@ load_dotenv()
 app = web.Application()
 routes = web.RouteTableDef()
 API_SECRET_CODE = os.getenv("API_SECRET_CODE")
-COMMAND_CHANNEL_ID = os.getenv("COMMAND_CHANNEL_ID"
+COMMAND_CHANNEL_ID = os.getenv("COMMAND_CHANNEL_ID")
 NOTIFICATION_CHANNEL_ID = os.getenv("NOTIFICATION_CHANNEL_ID")
 
 class Server(commands.Cog):

@@ -65,7 +65,7 @@ class TwitchAPI():
 
     def getActiveSubscriptions(self):
         self.createTwitchAppToken()
-        url = f"https://api.twitch.tv/helix/eventsub/subscriptions" #?status=enabled
+        url = f"https://api.twitch.tv/helix/eventsub/subscriptions?status=enabled"
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"]

@@ -46,8 +46,10 @@ class Server(commands.Cog):
                     content = await request.json()
                     event = content["event"]
                     liveStreamer = event["broadcaster_user_name"]
+                    streamURL = f"https://www.twitch.tv/{liveStreamer}"
                     notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
-                    await notificationchannel.send(f"{liveStreamer} is now live!")
+                    embed = discord.Embed(title=f"{liveStreamer} is now live!", url=streamURL)
+                    await notificationchannel.send(embed=embed)
                     print(f"{liveStreamer} is now live!")
                     return web.Response(status=200)
             else:

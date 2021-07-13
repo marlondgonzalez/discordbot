@@ -2,6 +2,7 @@ import os
 import re
 import json
 import hmac
+import discord
 import hashlib
 import aiohttp
 from aiohttp import web

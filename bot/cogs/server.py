@@ -39,15 +39,14 @@ class Server(commands.Cog):
                     content = await request.json()
                     challenge = content["challenge"]
                     print("Webhook callback verification completed, sending challenge to Twitch API server")
-                    print(type(COMMAND_CHANNEL_ID))
-                    commandchannel = self.clientbot.get_channel(COMMAND_CHANNEL_ID)
+                    commandchannel = self.clientbot.get_channel(int(COMMAND_CHANNEL_ID))
                     await commandchannel.send("Connected to Twitch server, streamer notifications successful")
                     return web.Response(text=challenge, status=200)
                 if headertype == "notification":
                     content = await request.json()
                     event = content["event"]
                     liveStreamer = event["broadcaster_user_name"]
-                    notificationchannel = self.clientbot.get_channel(NOTIFICATION_CHANNEL_ID)
+                    notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
                     await notificationchannel.send(f"{liveStreamer} is now live!")
                     print(f"{liveStreamer} is now live!")
                     return web.Response(status=200)

@@ -19,12 +19,6 @@ intents.guilds = True
 intents.voice_states = True
 clientbot = commands.Bot(command_prefix=command_prefix, intents=intents, help_command=None) # In order to avoid confusion (I kept going back and forth between discord.Client and commands.Bot), I named the commands.Bot instance clientbot. NTS: it is a Bot not Client instance
 
-# Establish pool connection / I think this is covered in database.py instead lol
-# async def createDataBasePool():
-#     clientbot.pg_con = await asyncpg.create_pool(DATABASE_URL)
-#     await clientbot.pg_con.execute("CREATE TABLE IF NOT EXISTS TestRun (UserID bigint, GuildID bigint, UserName varchar(255));")
-#     await clientbot.pg_con.execute("CREATE TABLE IF NOT EXISTS Sample (UserID bigint, GuildID bigint, ArgumentName varchar(255), Content text);")
-
 # Events
 @clientbot.event
 async def on_ready():
@@ -41,32 +35,6 @@ async def on_message(message):
     else:
         await message.channel.send(str(content))
 
-# @clientbot.event
-# async def on_voice_state_update(member, before, after):
-#     voicechannelID = getChannel(" Waiting Room")
-#     destinationID =
-#     if before.channel == None and after.channel.id == voicechannelID:
-#         channel = clientbot.get_channel(destinationID)
-#         await channel.send(f"User {member.name} has entered voice channel {after.channel.name}")
-
-# @clientbot.event
-# async def on_member_join(member):
-#     await member.add_roles(member.guild.roles)
-
-# @clientbot.event
-# async def on_raw_reaction_add():
-    # this function will be used to react to rules / add roles / subscribe to channels
-
-
-# Helper functions
-# def getChannel(guild, argument):
-#     allchannels = {}
-#     for channel in guild.text_channels:
-#         allchannels[channel.name] = channel.id
-#     for channel in ctx.guild.voice_channels:
-#         allchannels[channel.name] = channel.id
-#     return guild.get_channel(allchannels[argument])
-
 # Commands
 @clientbot.command(aliases=["Hello"])
 async def hello(ctx):
@@ -75,19 +43,6 @@ async def hello(ctx):
 @clientbot.command(aliases=["Ping"])
 async def ping(ctx):
     await ctx.send(f"My current ping is {round(clientbot.latency * 1000, 3)}ms!")
-
-# @clientbot.command(aliases=["Edit"])
-# async def edit(ctx):
-#     channel = ctx.guild.text_channels[14]
-#     channelname = channel.name
-#     if "" in channelname:
-#         newname = channelname[0:-2]
-#         await channel.edit(name=newname)
-#     else:
-#         newname = channelname + r"-"
-#         print(newname)
-#         await channel.edit(name=newname)
-#     await ctx.send("Changed Name")
 
 @clientbot.command(aliases=["Help"])
 async def help(ctx):
@@ -152,17 +107,29 @@ async def getMember(ctx, argument):
     except:
         await ctx.channel.send("Error: Not Found")
 
-@clientbot.command(aliases=["register"])
-async def Register(ctx, streamerUsername):
+
+@clientbot.command(aliases=["registerstreamer"])
+@commands.has_role("Guild Master")
+async def RegisterStreamer(ctx, streamerUsername):
     twitch = TwitchAPI()
     twitch.registerTwitchStreamer(streamerUsername)
     print("testing establishing connection")
 
-@clientbot.command(aliases=["streamers"])
+@clientbot.command(aliases=["liststreamers"])
 async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
     twitch.getActiveSubscriptions()
     print("listing all streamers")
+
+@clientbot.command(aliases=["test"])
+@commands.has_role("Guild Tactician")
+async def Test(ctx):
+    print("role check successful")
+
+@clientbot.command(aliases=["testtwo"])
+@commands.has_role("Guild Master")
+async def Testtwo(ctx):
+    print("role check successful")
 
 # @clientbot.command(aliases=["deletestreamer"])
 # async def DeleteSubscription(ctx, streamerUsername):
@@ -174,3 +141,39 @@ async def ListSubscriptions(ctx):
 clientbot.load_extension("cogs.database")
 clientbot.load_extension("cogs.server")
 clientbot.run(DISCORD_TOKEN)
+
+
+# Prototype functions
+# @clientbot.event
+# async def on_voice_state_update(member, before, after):
+#     voicechannelID = getChannel(" Waiting Room")
+#     destinationID =
+#     if before.channel == None and after.channel.id == voicechannelID:
+#         channel = clientbot.get_channel(destinationID)
+#         await channel.send(f"User {member.name} has entered voice channel {after.channel.name}")
+
+# @clientbot.event
+# async def on_raw_reaction_add():
+    # this function will be used to react to rules / add roles / subscribe to channels
+
+# @clientbot.command(aliases=["Edit"])
+# async def edit(ctx):
+#     channel = ctx.guild.text_channels[14]
+#     channelname = channel.name
+#     if "" in channelname:
+#         newname = channelname[0:-2]
+#         await channel.edit(name=newname)
+#     else:
+#         newname = channelname + r"-"
+#         print(newname)
+#         await channel.edit(name=newname)
+#     await ctx.send("Changed Name")
+
+# Helper functions
+# def getChannel(guild, argument):
+#     allchannels = {}
+#     for channel in guild.text_channels:
+#         allchannels[channel.name] = channel.id
+#     for channel in ctx.guild.voice_channels:
+#         allchannels[channel.name] = channel.id
+#     return guild.get_channel(allchannels[argument])

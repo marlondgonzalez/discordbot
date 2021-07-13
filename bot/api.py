@@ -18,6 +18,7 @@ class TwitchAPI():
         self.clientID = TWITCH_CLIENT_ID
         self.clientSecret = TWITCH_CLIENT_SECRET
         self.serverURL = WEBSITE_CALLBACK_URL
+        
     def createTwitchAppToken(self):
         # url = f"https://id.twitch.tv/oauth2/token?client_id={TWITCH_CLIENT_ID}&client_secret={TWITCH_CLIENT_SECRET}&grant_type=client_credentials&scope=<space-separated list of scopes>"
         url = f"https://id.twitch.tv/oauth2/token?client_id={self.clientID}&client_secret={self.clientSecret}&grant_type=client_credentials"

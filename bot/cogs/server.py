@@ -17,7 +17,7 @@ API_SECRET_CODE = os.getenv("API_SECRET_CODE")
 class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
-        self.debug = True
+        self.debug = False
         self.webserver.start()
 
         @routes.get('/')

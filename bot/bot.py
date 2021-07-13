@@ -23,6 +23,8 @@ clientbot = commands.Bot(command_prefix=command_prefix, intents=intents, help_co
 @clientbot.event
 async def on_ready():
     print(f"Discord bot {clientbot.user} logged in and ready for input")
+    for channel in clientbot.get_all_channels():
+        print(channel)
 
 @clientbot.event
 async def on_message(message):

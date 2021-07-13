@@ -20,12 +20,7 @@ class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
         self.commandchannel = clientbot.get_channel(COMMAND_CHANNEL_ID)
-        print(COMMAND_CHANNEL_ID)
-        print(self.commandchannel)
-        print(type(self.commandchannel))
         self.notificationchannel = clientbot.get_channel(NOTIFICATION_CHANNEL_ID)
-        print(self.notificationchannel)
-        print(type(self.notificationchannel))
         self.debug = False
         self.webserver.start()
 

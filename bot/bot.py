@@ -119,7 +119,7 @@ async def RegisterStreamer(ctx, streamerUsername):
 async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
     data = twitch.getActiveSubscriptions()
-    ctx.channel.send(data)
+    await ctx.channel.send(data)
 
 # @clientbot.command(aliases=["deletestreamer"])
 # async def DeleteSubscription(ctx, streamerUsername):

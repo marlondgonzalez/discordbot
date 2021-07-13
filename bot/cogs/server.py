@@ -19,8 +19,9 @@ NOTIFICATION_CHANNEL_ID = os.getenv("NOTIFICATION_CHANNEL_ID")
 class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
-        self.commandchannel = clientbot.get_channel(COMMAND_CHANNEL_ID)
-        self.notificationchannel = clientbot.get_channel(NOTIFICATION_CHANNEL_ID)
+        self.guild = clientbot.guilds[0] # Make sure bot is only ever in this server
+        self.commandchannel = self.guild.get_channel(COMMAND_CHANNEL_ID)
+        self.notificationchannel = self.guild.get_channel(NOTIFICATION_CHANNEL_ID)
         self.debug = False
         self.webserver.start()
 

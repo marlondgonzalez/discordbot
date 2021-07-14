@@ -55,6 +55,7 @@ class TwitchAPI():
 
 # WIP
     def getStreamData(self, UserID):
+        self.createTwitchAppToken()
         url = f"https://api.twitch.tv/helix/streams?user_id={UserID}"
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
@@ -63,9 +64,10 @@ class TwitchAPI():
         title = data["title"]
         views = data["viewer_count"]
         thumbnail = data["thumbnail_url"] + "?r=" + str(round(time.time()))
-        return game, title, views, thumbnail 
+        return game, title, views, thumbnail
 
     def getUserData(self, UserID):
+        self.createTwitchAppToken()
         url = f"https://api.twitch.tv/helix/users?id={UserID}"
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)

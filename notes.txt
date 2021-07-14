@@ -1,19 +1,19 @@
 Discord Bot notes
 
 Essentials
+ - create database table for streamers, include: DiscordName, Discriminant, TwitchName, TwitchNotificationID
+   - This table will be referenced by TwitchAPI.getActiveSubscriptions() to key TwitchNotificationID with DiscordName/Discriminant in order to change roles
+   - Need to create change roles functions for "Streaming Live" role
  - get specific roles by reacting, eliminating need to mute channels not interested in or notifications for any type of streamers
- - get auto shouted by reacting
- - "add command" command
+ - change channel variables to pull channel_id's instead of guild.text_channels[index] to avoid breaking if order is changed
  - don't forget to credit anyone whose code on github helped create this project
+ - watch out for duplicate streaming notifications, I think pinging the heroku website every 15 minutes should alleviate this problem but need to make sure
 
 Desired
  - levels?
  - security system?
  - automatically respond to special words (mostly for fun)
  - have steam / other launchers id's command for certain users
-
-What to do when I get full access to server:
- - change channel variables to pull channel_id's instead of guild.text_channels[index] to avoid breaking if order is changed
 
 Technical
  - use "taskkill /f /im ngrok.exe" to kill off any ngrok tunnels that are active

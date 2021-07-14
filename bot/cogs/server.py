@@ -26,7 +26,7 @@ class Server(commands.Cog):
         @routes.get('/')
         async def home(request):
             print(request)
-            return web.Response(text="Hello World", status=200)
+            return web.Response(text="Hello! Welcome to the Bonobo Guild!", status=200)
 
         @routes.post('/callback')
         async def callback(request):
@@ -52,7 +52,7 @@ class Server(commands.Cog):
                     embed = discord.Embed(title=f"{liveStreamer} is now live!", url=streamURL)
                     await notificationchannel.send(embed=embed)
                     print(f"{liveStreamer} is now live!")
-                    return web.Response(status=200)
+                    return web.Response(status=200, text="OK")
             else:
                 print("Communication successful but not trusted")
                 return web.Response(status=200)

@@ -65,9 +65,9 @@ class TwitchAPI():
         views = data["viewer_count"]
         thumbnail = data["thumbnail_url"] + "?r=" + str(round(time.time()))
         if thumbnail.find("width") != -1 or thumbnail.find("height") == -1:
-            print("found width text")
             thumbnail.replace("{width}", "300")
             thumbnail.replace("{height}", "300")
+            print(thumbnail)
         return game, title, views, thumbnail
 
     def getUserData(self, UserID):

@@ -83,7 +83,7 @@ class TwitchAPI():
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"]
-        users = [user["condition"]["broadcaster_userID"] for user in data]
+        users = [user["condition"]["broadcaster_user_id"] for user in data]
         for userID in users:
             username = self.getUserName(userID)
             allusernames.append(username)

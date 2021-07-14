@@ -58,9 +58,9 @@ class Server(commands.Cog):
                         description=f"Hey everyone, {livestreamer} is now {game}! Go join them in chat!"
                     else:
                         description=f"Hey everyone, {livestreamer} is now playing {game}! Go check it out!"
-                    embed = discord.Embed(title=title, url=streamURL, description=description, colour=discord.Colour.purple(), thumbnail=thumbnail, image=profile)
-                    print(profile)
-                    print(thumbnail)
+                    embed = discord.Embed(title=title, url=streamURL, description=description, colour=discord.Colour.purple())
+                    embed.set_image(profile)
+                    elmbed.set_thumbnail(thumbnail)
                     await notificationchannel.send(embed=embed)
                     print(f"{livestreamer} is now live!")
                     return web.Response(status=200, text="OK")

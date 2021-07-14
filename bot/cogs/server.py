@@ -49,7 +49,7 @@ class Server(commands.Cog):
                     livestreamer = event["broadcaster_user_name"]
                     streamURL = f"https://www.twitch.tv/{livestreamer}"
                     notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
-                    embed = discord.Embed(title="Now Live!", url=streamURL, description=f"Hey everyone, {livestreamer} is now live! Go check it out!", colour=Colour.purple, thumbnail=streamURL)
+                    embed = discord.Embed(title="Now Live!", url=streamURL, description=f"Hey everyone, {livestreamer} is now live! Go check it out!", colour=discord.Colour.purple, thumbnail=streamURL)
                     await notificationchannel.send(embed=embed)
                     print(f"{livestreamer} is now live!")
                     return web.Response(status=200, text="OK")

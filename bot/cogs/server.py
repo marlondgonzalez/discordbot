@@ -54,9 +54,10 @@ class Server(commands.Cog):
                     game, title, views, thumbnail = twitch.getStreamData(userID)
                     profile = twitch.getUserData(userID)
                     notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
-                    description=f"Hey everyone, {livestreamer} is now live playing {game}! Go check it out!"
-                    print(thumbnail)
-                    print(profile)
+                    if game == "Just Chatting":
+                        description=f"Hey everyone, {livestreamer} is now {game}! Go join them in chat!"
+                    else:
+                        description=f"Hey everyone, {livestreamer} is now playing {game}! Go check it out!"
                     embed = discord.Embed(title=title, url=streamURL, description=description, colour=discord.Colour.purple(), thumbnail=thumbnail, image=profile)
                     await notificationchannel.send(embed=embed)
                     print(f"{livestreamer} is now live!")

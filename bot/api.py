@@ -52,9 +52,27 @@ class TwitchAPI():
         username = data[0]['broadcaster_name']
         return username
 
+# WIP
+    def getStreamData(self, UserID):
+        url = f"https://api.twitch.tv/helix/streams?user_id={UserID}"
+        headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
+        response = requests.get(url, headers=headers)
+        data = json.loads(response.text)["data"][0]
+        game = data["game_name"]
+        title = data["title"]
+        views = data["viewer_count"]
+        thumbnail = data["thumbnail_url"] #append timestamp variable to prevent caching in discord
+
+    def getUserData(self, UserID):
+        url = f"https://api.twitch.tv/helix/users?id={UserID}"
+        headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
+        response = requests.get(url, headers=headers)
+        data = json.loads(response.text)["data"][0]
+        profile = data["profile_image_url"] #set width/height to 300x300
+
     def createTwitchDiscordWebhook(self):
         self.createTwitchAppToken()
-        posturl = r"https://api.twitch.tv/helix/eventsub/subscriptions"
+        url = r"https://api.twitch.tv/helix/eventsub/subscriptions"
         payload = {
         "type": "stream.online",
         "version": "1",
@@ -68,7 +86,7 @@ class TwitchAPI():
         }
     }
         headers = {"Client-ID":self.clientID, "Authorization":"Bearer " + self.token, "Content-Type":"application/json"}
-        self.response = requests.post(posturl, data=json.dumps(payload), headers=headers)
+        self.response = requests.post(url, data=json.dumps(payload), headers=headers)
         return self.response
 
     def registerTwitchStreamer(self, streamerusername):

@@ -108,13 +108,14 @@ async def getMember(ctx, argument):
         await ctx.channel.send("Error: Not Found")
 
 @clientbot.command(aliases=["registerstreamer"])
-@commands.has_role("Guild Tactician")
+@commands.has_role(["Guild Master", "Vice Guild Master", "Guild Tactician"])
 async def RegisterSubscription(ctx, streamerssername):
     twitch = TwitchAPI()
     twitch.registerTwitchStreamer(streamerssername)
     await ctx.channel.send("Registering Streamer")
 
 @clientbot.command(aliases=["deletestreamer"])
+@commands.has_role(["Guild Master", "Vice Guild Master", "Guild Tactician"])
 async def DeleteSubscription(ctx, streamerssername):
     twitch = TwitchAPI()
     twitch.deleteActiveSubscription(streamerssername)
@@ -122,7 +123,7 @@ async def DeleteSubscription(ctx, streamerssername):
     await ctx.channel.send("Deleting Streamer")
 
 @clientbot.command(aliases=["liststreamers"])
-@commands.has_role("Guild Tactician")
+@commands.has_role(["Guild Master", "Vice Guild Master", "Guild Tactician"])
 async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
     activesubscriptions = twitch.getActiveSubscriptions()

@@ -52,8 +52,10 @@ class Server(commands.Cog):
                     streamURL = f"https://www.twitch.tv/{livestreamer}"
                     twitch = TwitchAPI()
                     game, title, views, thumbnail = twitch.getStreamData(userID)
+                    profile = twitch.getUserData(userID)
                     notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
-                    embed = discord.Embed(title=title, url=streamURL, description=f"Hey everyone, {livestreamer} is now live playing {game}! Go check it out!", colour=discord.Colour.purple(), thumbnail=thumbnail)
+                    description=f"Hey everyone, {livestreamer} is now live playing {game}! Go check it out!"
+                    embed = discord.Embed(title=title, url=streamURL, description=description, colour=discord.Colour.purple(), thumbnail=thumbnail, image=profile)
                     await notificationchannel.send(embed=embed)
                     print(f"{livestreamer} is now live!")
                     return web.Response(status=200, text="OK")

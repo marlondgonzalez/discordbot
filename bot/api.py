@@ -73,6 +73,7 @@ class TwitchAPI():
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"][0]
         profile = data["profile_image_url"] #set width/height to 300x300
+        return profile
 
     def createTwitchDiscordWebhook(self):
         self.createTwitchAppToken()

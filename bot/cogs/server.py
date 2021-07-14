@@ -59,7 +59,7 @@ class Server(commands.Cog):
                     else:
                         description=f"Hey everyone, {livestreamer} is now playing {game}! Go check it out!"
                     embed = discord.Embed(title=title, url=streamURL, description=description, colour=discord.Colour.purple(), thumbnail=thumbnail, image=profile)
-                    print(image)
+                    print(profile)
                     print(thumbnail)
                     await notificationchannel.send(embed=embed)
                     print(f"{livestreamer} is now live!")

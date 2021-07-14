@@ -7,6 +7,7 @@ import hashlib
 import aiohttp
 from aiohttp import web
 from dotenv import load_dotenv
+from api import TwitchAPI
 # from discord import Webhook, AsyncWebhookAdapter
 from discord.ext import commands, tasks
 
@@ -46,10 +47,13 @@ class Server(commands.Cog):
                 if headertype == "notification":
                     content = await request.json()
                     event = content["event"]
+                    userID = event["broadcaster_user_id"]
                     livestreamer = event["broadcaster_user_name"]
                     streamURL = f"https://www.twitch.tv/{livestreamer}"
+                    twitch = TwitchAPI()
+                    game, title, views, thumbnail = twitch.getStreamData(userID)
                     notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
-                    embed = discord.Embed(title="Now Live!", url=streamURL, description=f"Hey everyone, {livestreamer} is now live! Go check it out!", colour=discord.Colour.purple(), thumbnail=streamURL)
+                    embed = discord.Embed(title=title, url=streamURL, description=f"Hey everyone, {livestreamer} is now live playing {game}! Go check it out!", colour=discord.Colour.purple(), thumbnail=thumbnail)
                     await notificationchannel.send(embed=embed)
                     print(f"{livestreamer} is now live!")
                     return web.Response(status=200, text="OK")

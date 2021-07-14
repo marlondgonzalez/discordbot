@@ -1,4 +1,5 @@
 import os
+import time
 import json
 import requests
 import aiohttp
@@ -61,7 +62,8 @@ class TwitchAPI():
         game = data["game_name"]
         title = data["title"]
         views = data["viewer_count"]
-        thumbnail = data["thumbnail_url"] #append timestamp variable to prevent caching in discord
+        thumbnail = data["thumbnail_url"] + "?r=" + str(round(time.time()))
+        return game, title, views, thumbnail 
 
     def getUserData(self, UserID):
         url = f"https://api.twitch.tv/helix/users?id={UserID}"

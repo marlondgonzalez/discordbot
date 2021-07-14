@@ -131,7 +131,7 @@ async def ListSubscriptions(ctx):
         embed = discord.Embed(title="Bonobo Alliance")
         for streamer in activesubscriptions:
             streamername = "**" + streamer + "**"
-            embed.add_field(name="**User**", value=streamername, inline=False)
+            embed.add_field(name="**Streamer:**", value=streamername, inline=True)
         await ctx.channel.send(embed=embed)
     else:
         await ctx.channel.send("Error: No streamers featured, please add streamers to our community:)" )

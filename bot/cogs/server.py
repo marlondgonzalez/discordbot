@@ -46,12 +46,12 @@ class Server(commands.Cog):
                 if headertype == "notification":
                     content = await request.json()
                     event = content["event"]
-                    liveStreamer = event["broadcaster_user_name"]
-                    streamURL = f"https://www.twitch.tv/{liveStreamer}"
+                    livestreamer = event["broadcaster_user_name"]
+                    streamURL = f"https://www.twitch.tv/{livestreamer}"
                     notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
-                    embed = discord.Embed(title=f"{liveStreamer} is now live!", url=streamURL)
+                    embed = discord.Embed(title="Now Live!", url=streamURL, description=f"Hey everyone, {livestreamer} is now live! Go check it out!", colour=Colour.purple, thumbnail=streamURL)
                     await notificationchannel.send(embed=embed)
-                    print(f"{liveStreamer} is now live!")
+                    print(f"{livestreamer} is now live!")
                     return web.Response(status=200, text="OK")
             else:
                 print("Communication successful but not trusted")

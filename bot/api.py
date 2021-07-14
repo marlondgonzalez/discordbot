@@ -49,7 +49,7 @@ class TwitchAPI():
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"]
-        username = data['broadcaster_name']
+        username = data[0]['broadcaster_name']
         return username
 
     def createTwitchDiscordWebhook(self):

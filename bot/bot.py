@@ -109,23 +109,32 @@ async def getMember(ctx, argument):
 
 @clientbot.command(aliases=["registerstreamer"])
 @commands.has_role("Guild Tactician")
-async def RegisterStreamer(ctx, streamerUsername):
+async def RegisterSubscription(ctx, streamerssername):
     twitch = TwitchAPI()
-    twitch.registerTwitchStreamer(streamerUsername)
+    twitch.registerTwitchStreamer(streamerssername)
     await ctx.channel.send("Registering Streamer")
+
+@clientbot.command(aliases=["deletestreamer"])
+async def DeleteSubscription(ctx, streamerssername):
+    twitch = TwitchAPI()
+    twitch.deleteActiveSubscription(streamerssername)
+    print("Deleting Streamer")
+    await ctx.channel.send("Deleting Streamer")
 
 @clientbot.command(aliases=["liststreamers"])
 @commands.has_role("Guild Tactician")
 async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
-    data = twitch.getActiveSubscriptions()
-    await ctx.channel.send(data)
-
-# @clientbot.command(aliases=["deletestreamer"])
-# async def DeleteSubscription(ctx, streamerUsername):
-#     twitch = TwitchAPI()
-#     twitch.deleteActiveSubscription(streamerUsername)
-#     print("deleting streamer")
+    activesubscriptions = twitch.getActiveSubscriptions()
+    print("Listing Streamers")
+    if len(activesubscriptions) > 0:
+        embed = discord.Embed(title="Bonobo Alliance")
+        for streamer in activesubscriptions:
+            streamername = "**" + streamer + "**"
+            embed.add_field(name="**User**", value=streamername, inline=False)
+        await ctx.channel.send(embed=embed)
+    else:
+        await ctx.channel.send("Error: No streamers featured, please add streamers to our community:)" )
 
 # Main Process
 clientbot.load_extension("cogs.database")

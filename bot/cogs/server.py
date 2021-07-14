@@ -55,6 +55,8 @@ class Server(commands.Cog):
                     profile = twitch.getUserData(userID)
                     notificationchannel = self.clientbot.get_channel(int(NOTIFICATION_CHANNEL_ID))
                     description=f"Hey everyone, {livestreamer} is now live playing {game}! Go check it out!"
+                    print(thumbnail)
+                    print(profile)
                     embed = discord.Embed(title=title, url=streamURL, description=description, colour=discord.Colour.purple(), thumbnail=thumbnail, image=profile)
                     await notificationchannel.send(embed=embed)
                     print(f"{livestreamer} is now live!")

@@ -23,7 +23,6 @@ class TwitchAPI():
 
     def createTwitchAppToken(self):
         if self.token == None:
-            # url = f"https://id.twitch.tv/oauth2/token?client_id={TWITCH_CLIENT_ID}&client_secret={TWITCH_CLIENT_SECRET}&grant_type=client_credentials&scope=<space-separated list of scopes>"
             url = f"https://id.twitch.tv/oauth2/token?client_id={self.clientID}&client_secret={self.clientSecret}&grant_type=client_credentials"
             response = requests.post(url)
             jsonresponse = response.json()
@@ -75,7 +74,7 @@ class TwitchAPI():
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"][0]
-        profile = data["profile_image_url"] #set width/height to 300x300
+        profile = data["profile_image_url"] 
         return profile
 
     def createTwitchDiscordWebhook(self):

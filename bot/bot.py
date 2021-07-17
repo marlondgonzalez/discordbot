@@ -96,6 +96,7 @@ async def getChannel(ctx, argument):
     except:
         await ctx.channel.send("Error: Not Found")
 
+
 # Caution: if two or more users in the guild have the same username, this command will only return one of them
 @clientbot.command(aliases=["getmember"])
 async def getMember(ctx, argument):
@@ -109,18 +110,19 @@ async def getMember(ctx, argument):
 
 @clientbot.command(aliases=["registerstreamer"])
 @commands.has_any_role("Guild Master", "Vice Guild Master", "Guild Tactician")
-async def RegisterSubscription(ctx, streamerssername):
+async def RegisterSubscription(ctx, streamerusername):
     twitch = TwitchAPI()
-    twitch.registerTwitchStreamer(streamerssername)
+    twitch.registerTwitchStreamer(streamerusername)
     await ctx.channel.send("Registering Streamer")
 
 @clientbot.command(aliases=["deletestreamer"])
 @commands.has_any_role("Guild Master", "Vice Guild Master", "Guild Tactician")
-async def DeleteSubscription(ctx, streamerssername):
+async def DeleteSubscription(ctx, streamerusername):
     twitch = TwitchAPI()
-    twitch.deleteActiveSubscription(streamerssername)
+    twitch.deleteActiveSubscription(streamerusername)
     print("Deleting Streamer")
     await ctx.channel.send("Deleting Streamer")
+
 
 @clientbot.command(aliases=["liststreamers"])
 @commands.has_any_role("Guild Master", "Vice Guild Master", "Guild Tactician")

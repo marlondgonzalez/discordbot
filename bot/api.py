@@ -86,7 +86,7 @@ class TwitchAPI():
         "type": "stream.online",
         "version": "1",
         "condition": {
-            "broadcaster_userID": f"{self.userID}"
+            "broadcaster_user_id": f"{self.userID}"
         },
         "transport": {
             "method": "webhook",
@@ -96,6 +96,7 @@ class TwitchAPI():
     }
         headers = {"Client-ID":self.clientID, "Authorization":"Bearer " + self.token, "Content-Type":"application/json"}
         self.response = requests.post(url, data=json.dumps(payload), headers=headers)
+        print("Webhook sent")
         return self.response
 
     def registerTwitchStreamer(self, streamerusername):
@@ -106,7 +107,7 @@ class TwitchAPI():
     def getActiveSubscriptions(self):
         self.createTwitchAppToken()
         allusernames = []
-        url = f"https://api.twitch.tv/helix/eventsub/subscriptions" #?status=enabled"
+        url = f"https://api.twitch.tv/helix/eventsub/subscriptions?status=enabled"
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"]
@@ -114,11 +115,23 @@ class TwitchAPI():
         for userID in users:
             username = self.getUserName(userID)
             allusernames.append(username)
+        print("Listed Streamers")
         return allusernames
 
     def deleteActiveSubscription(self, streamerusername):
         self.createTwitchAppToken()
-        userID = self.getUserID(streamerusername)
-        url = f"https://api.twitch.tv/helix/eventsub/subscriptions?id={userID}"
+        self.getUserID(streamerusername)
+        pairings = {}
+        url = f"https://api.twitch.tv/helix/eventsub/subscriptions?status=enabled"
+        headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
+        response = requests.get(url, headers=headers)
+        data = json.loads(response.text)["data"]
+        for user in data:
+            userID = user["condition"]["broadcaster_user_id"]
+            ID = user["id"]
+            pairings[userID] = ID
+        notificationID = pairings[self.userID]
+        url = f"https://api.twitch.tv/helix/eventsub/subscriptions?id={notificationID}"
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.delete(url, headers=headers)
+        print("Deleted Streamer")

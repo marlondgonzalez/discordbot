@@ -21,7 +21,7 @@ NOTIFICATION_CHANNEL_ID = os.getenv("NOTIFICATION_CHANNEL_ID")
 class Server(commands.Cog):
     def __init__(self, clientbot):
         self.clientbot = clientbot
-        self.debug = False
+        self.debug = True
         self.webserver.start()
 
         @routes.get('/')

@@ -67,7 +67,6 @@ class TwitchAPI():
         if thumbnail.find("width") != -1 or thumbnail.find("height") == -1:
             thumbnail = thumbnail.replace("{width}", "300")
             thumbnail = thumbnail.replace("{height}", "180")
-            print(thumbnail)
         return game, title, views, thumbnail
 
     def getUserData(self, UserID):

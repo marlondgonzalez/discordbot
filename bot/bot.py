@@ -123,7 +123,6 @@ async def DeleteSubscription(ctx, streamerusername):
     print("Deleting Streamer")
     await ctx.channel.send("Deleting Streamer")
 
-
 @clientbot.command(aliases=["liststreamers"])
 @commands.has_any_role("Guild Master", "Vice Guild Master", "Guild Tactician")
 async def ListSubscriptions(ctx):
@@ -179,3 +178,7 @@ clientbot.run(DISCORD_TOKEN)
 #     for channel in ctx.guild.voice_channels:
 #         allchannels[channel.name] = channel.id
 #     return guild.get_channel(allchannels[argument])
+
+# @clientbot.command()
+# def editRole(ctx):
+#

@@ -62,9 +62,9 @@ class Server(commands.Cog):
                     embed.set_thumbnail(url=profile)
                     allowed_mentions = discord.AllowedMentions(everyone=True)
                     if game == "Just Chatting":
-                        livemessage=f"Hey @everyone, {livestreamer} is now {game}! Go join them in chat!"
+                        livemessage=f"Hey @here, {livestreamer} is now {game}! Go join them in chat!"
                     else:
-                        livemessage=f"Hey @everyone, {livestreamer} is now playing {game}! Go check it out!"
+                        livemessage=f"Hey @here, {livestreamer} is now playing {game}! Go check it out!"
                     await notificationchannel.send(content=livemessage, embed=embed, allowed_mentions = allowed_mentions)
                     print(f"{livestreamer} is now live!")
                     return web.Response(status=200, text="OK")

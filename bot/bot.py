@@ -128,8 +128,7 @@ async def DeleteSubscription(ctx, streamerusername):
 async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
     activesubscriptions = twitch.getActiveSubscriptions()
-    print("Listing Streamers")
-    if len(activesubscriptions) > 0:
+    if len(activesubscriptions) > 0: # WIP: split by 25 and create different embeds due to size limit
         embed = discord.Embed(title="Bonobo Alliance")
         for streamer in activesubscriptions:
             streamername = "**" + streamer + "**"

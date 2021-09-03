@@ -44,9 +44,9 @@ async def hello(ctx):
 async def ping(ctx):
     await ctx.send(f"My current ping is {round(clientbot.latency * 1000, 3)}ms!")
 
-@clientbot.command(aliases=["Help"])
-async def help(ctx):
-    await ctx.send(f"I wonder if this overrides the default !help command")
+# @clientbot.command(aliases=["Help"])
+# async def help(ctx):
+#     await ctx.send(f"I wonder if this overrides the default !help command")
 
 # Custom Commands
 @clientbot.command(aliases=["addcommand"])
@@ -128,12 +128,14 @@ async def DeleteSubscription(ctx, streamerusername):
 async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
     activesubscriptions = twitch.getActiveSubscriptions()
-    if len(activesubscriptions) > 0: # WIP: split by 25 and create different embeds due to size limit
+    if len(activesubscriptions) > 0:
         embed = discord.Embed(title="Bonobo Alliance")
-        for streamer in activesubscriptions:
-            streamername = "**" + streamer + "**"
-            embed.add_field(name="**Streamer:**", value=streamername, inline=True)
-        await ctx.channel.send(embed=embed)
+        for i in range(0, len(activesubscriptions), 25):
+            chunk = activesubscriptions[i:i+25]
+            for streamer in chunk:
+                streamername = "**" + streamer + "**"
+                embed.add_field(name="**Streamer:**", value=streamername, inline=True)
+            await ctx.channel.send(embed=embed)        
     else:
         await ctx.channel.send("Error: No streamers featured, please add streamers to our community:)" )
 

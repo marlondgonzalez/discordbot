@@ -39,8 +39,9 @@ async def on_message(message):
 @clientbot.event
 async def on_reaction_add(reaction, user):
     emoji_role_dict = {":amongUs:": "Among Us Peeps", ":skull": "Dead By Daylight Peeps"}
-    channel = bot.get_channel('862975521835188225')
+    channel = clientbot.get_channel('862975521835188225')
     if reaction.message.channel.id != channel.id:
+        print("NA")
         return
     else:
         print(channel)

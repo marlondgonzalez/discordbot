@@ -36,17 +36,17 @@ async def on_message(message):
     else:
         await message.channel.send(str(content))
 
-@clientbot.event
-async def on_reaction_add(reaction, user):
-    emoji_role_dict = {":amongUs:": "Among Us Peeps", ":skull": "Dead By Daylight Peeps"}
-    channel = clientbot.get_channel('862975521835188225')
-    if reaction.message.channel.id != channel.id:
-        print("NA")
-        return
-    else:
-        print(channel)
-        role = discord.utils.get(user.server.roles, name=emoji_role_dict[reaction.emoji])
-        await bot.add_roles(user, role)
+# @clientbot.event #WIP, react to get role
+# async def on_reaction_add(reaction, user):
+#     emoji_role_dict = {":amongUs:": "Among Us Peeps", ":skull": "Dead By Daylight Peeps"}
+#     channel = clientbot.get_channel('862975521835188225')
+#     if reaction.message.channel.id != channel.id:
+#         print("NA")
+#         return
+#     else:
+#         print(channel)
+#         role = discord.utils.get(user.server.roles, name=emoji_role_dict[reaction.emoji])
+#         await bot.add_roles(user, role)
 
 # Commands
 @clientbot.command(aliases=["Hello"])

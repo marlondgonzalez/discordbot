@@ -16,6 +16,7 @@ command_prefix = "!"
 intents = discord.Intents.default()
 intents.members = True
 intents.guilds = True
+intents.reactions = True
 intents.voice_states = True
 clientbot = commands.Bot(command_prefix=command_prefix, intents=intents, help_command=None) # In order to avoid confusion (I kept going back and forth between discord.Client and commands.Bot), I named the commands.Bot instance clientbot. NTS: it is a Bot not Client instance
 
@@ -34,6 +35,17 @@ async def on_message(message):
         await clientbot.process_commands(message)
     else:
         await message.channel.send(str(content))
+
+@clientbot.event
+async def on_reaction_add(reaction, user):
+    emoji_role_dict = {":amongUs:": "Among Us Peeps", ":skull": "Dead By Daylight Peeps"}
+    channel = bot.get_channel('862975521835188225')
+    if reaction.message.channel.id != channel.id:
+        return
+    else:
+        print(channel)
+        role = discord.utils.get(user.server.roles, name=emoji_role_dict[reaction.emoji])
+        await bot.add_roles(user, role)
 
 # Commands
 @clientbot.command(aliases=["Hello"])
@@ -135,7 +147,7 @@ async def ListSubscriptions(ctx):
             for streamer in chunk:
                 streamername = "**" + streamer + "**"
                 embed.add_field(name="**Streamer:**", value=streamername, inline=True)
-            await ctx.channel.send(embed=embed)        
+            await ctx.channel.send(embed=embed)
     else:
         await ctx.channel.send("Error: No streamers featured, please add streamers to our community:)" )
 

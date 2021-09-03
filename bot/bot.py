@@ -129,8 +129,8 @@ async def ListSubscriptions(ctx):
     twitch = TwitchAPI()
     activesubscriptions = twitch.getActiveSubscriptions()
     if len(activesubscriptions) > 0:
-        embed = discord.Embed(title="Bonobo Alliance")
         for i in range(0, len(activesubscriptions), 25):
+            embed = discord.Embed(title="Bonobo Alliance")
             chunk = activesubscriptions[i:i+25]
             for streamer in chunk:
                 streamername = "**" + streamer + "**"

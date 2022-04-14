@@ -74,7 +74,7 @@ class TwitchAPI():
         headers = {"Client-ID": self.clientID, "Authorization":"Bearer " + self.token}
         response = requests.get(url, headers=headers)
         data = json.loads(response.text)["data"][0]
-        profile = data["profile_image_url"] 
+        profile = data["profile_image_url"]
         return profile
 
     def createTwitchDiscordWebhook(self):
@@ -114,6 +114,7 @@ class TwitchAPI():
             username = self.getUserName(userID)
             allusernames.append(username)
         print("Listed Streamers")
+        print(response)
         return allusernames
 
     def deleteActiveSubscription(self, streamerusername):

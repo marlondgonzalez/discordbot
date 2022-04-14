@@ -114,7 +114,7 @@ class TwitchAPI():
             username = self.getUserName(userID)
             allusernames.append(username)
         print("Listed Streamers")
-        print(response)
+        print(response.text)
         return allusernames
 
     def deleteActiveSubscription(self, streamerusername):

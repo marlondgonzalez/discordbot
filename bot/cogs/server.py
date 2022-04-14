@@ -31,7 +31,6 @@ class Server(commands.Cog):
 
         @routes.post('/callback')
         async def callback(request):
-            print(request)
             headertype = request.headers.get("Twitch-Eventsub-Message-Type")
             body = await request.read()
             actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")

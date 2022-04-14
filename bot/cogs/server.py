@@ -31,9 +31,9 @@ class Server(commands.Cog):
 
         @routes.post('/callback')
         async def callback(request):
+            print(request)
             headertype = request.headers.get("Twitch-Eventsub-Message-Type")
             body = await request.read()
-            print(body)
             actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
             message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + body
             expectedsignature = "sha256=" + hmac.new(API_SECRET_CODE.encode(), message, hashlib.sha256).hexdigest()

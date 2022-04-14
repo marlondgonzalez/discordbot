@@ -32,12 +32,12 @@ class Server(commands.Cog):
         @routes.post('/callback')
         async def callback(request):
             headertype = request.headers.get("Twitch-Eventsub-Message-Type")
+            print(headertype)
             body = await request.read()
             actualsignature = request.headers.get("Twitch-Eventsub-Message-Signature")
             message = request.headers.get("Twitch-Eventsub-Message-ID").encode() + request.headers.get('Twitch-Eventsub-Message-Timestamp').encode() + body
             expectedsignature = "sha256=" + hmac.new(API_SECRET_CODE.encode(), message, hashlib.sha256).hexdigest()
             if actualsignature == expectedsignature:
-                print(headertype)
                 if headertype == "webhook_callback_verification":
                     content = await request.json()
                     challenge = content["challenge"]
